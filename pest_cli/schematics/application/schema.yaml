@@ -1,0 +1,47 @@
+name: application
+description: |-
+  generate a new pest application
+
+  NAME the name of your application.
+
+aliases:
+  - app
+properties:
+  name:
+    data_type: string
+    type: argument
+    description: the name of the application.
+    prompt:
+      label: What is the name of your application?
+      kind: text
+
+  dm:
+    alternative: true
+    data_type: string
+    type: option
+    description: whether to use poetry or requirements.
+    prompt:
+      label: How do you manage your dependencies?
+      kind: choice
+      choices:
+        - poetry
+        - requirements
+      default: poetry
+
+  author:
+    data_type: string
+    type: option
+    description: the author of the application.
+    default: Mr. Pesty
+
+  description:
+    data_type: string
+    type: option
+    description: the description of the application.
+    default: An awesome pest application.
+
+  version:
+    data_type: string
+    type: option
+    description: The version of the application.
+    default: 0.1.0

@@ -1,0 +1,15 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.testing.pytestArgs": [
+			"tests",
+			"--verbose",
+			"--no-header",
+			"--import-mode=importlib",
+		]
+	}
+}

@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Module CmdVar",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "${command:extension.commandvariable.file.relativeDirDots}.${fileBasenameNoExtension}",
+            "args": [
+                "--help"
+            ],
+            "justMyCode": false
+        } ,
+        {
+            "name": "Pest CLI",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "pest_cli.app",
+            "args": [
+                "generate",
+                "app", 
+                "myapp"
+                // "--help"
+            ],
+            "justMyCode": false
+        } 
+
+    ]
+}

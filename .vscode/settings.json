@@ -1,0 +1,63 @@
+{
+    "files.exclude": {
+        // 📙 sub-libs
+        "tools": true,
+
+        // ⚙️ config
+        "pyproject.toml": true,
+        "**/**/*.code-workspace": true,
+        "poetry.lock": true,
+        "poetry.toml": true,
+
+        // 🧼 linters & styles
+        ".ruff.toml": true,
+        "coco.yml": true,
+        ".env": true,
+
+        // 🧪 tests
+        "conftest.py": true,
+        "tests": true,
+        "htmlcov": true,
+        "coverage": true,
+        ".coverage": true,
+
+        // 🗑️
+        ".task": true, // task-go
+        ".venv": true,
+        ".vscode": true,
+        ".ruff_cache": true,
+        "**/**/__pycache__": true,
+        ".git": true,
+        ".gitignore": true,
+        ".pytest_cache": true,
+        ".github": true,
+
+        // 📝 docs
+        // "**/**/README.md": true
+    },
+    "[python]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "explicit",
+            "source.organizeImports": "explicit"
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+
+    "black-formatter.importStrategy": "fromEnvironment",
+
+    "python.testing.pytestArgs": [
+        "tests",
+        "--verbose",
+        "--no-header",
+        "--import-mode=importlib",
+    ],
+    
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.autoImportCompletions": true,
+    "python.analysis.exclude": [
+        "**/.patches/**/",
+    ]
+}
