@@ -1,5 +1,5 @@
 from gettext import gettext as _
-from typing import Any, Callable, Optional, Union
+from typing import Any, Callable, List, Optional, Tuple, Type, Union
 
 import click
 from click.core import Context
@@ -55,21 +55,42 @@ class Option(click.Option):
 
 
 class Command(click.Command):
-    def __init__(self, *args: Any, aliases: list | None = None, **kwargs: Any):
+    def __init__(self, *args: Any, aliases: Optional[list] = None, **kwargs: Any):
         self.aliases = aliases
         super().__init__(*args, **kwargs)
 
     format_options = format_options
 
+    def get_help_option(self, ctx: Context) -> Optional['Option']:
+        """Returns the help option object."""
+        help_options = self.get_help_option_names(ctx)
+
+        if not help_options or not self.add_help_option:
+            return None
+
+        def show_help(ctx: Context, param: click.Parameter, value: str) -> None:
+            if value and not ctx.resilient_parsing:
+                echo(ctx.get_help(), color=ctx.color)
+                ctx.exit()
+
+        return Option(
+            help_options,
+            is_flag=True,
+            is_eager=True,
+            expose_value=False,
+            callback=show_help,
+            help=_('show this message and exit.'),
+        )
+
 
 class Group(click.Group):
-    command_class: type[click.Command] = Command
+    command_class: Type[click.Command] = Command
 
     @property
-    def group_class(self) -> type[click.Group]:
+    def group_class(self) -> Type[click.Group]:
         return self.__class__
 
-    def __init__(self, *args: Any, aliases: list | None = None, **kwargs: Any):
+    def __init__(self, *args: Any, aliases: Optional[list] = None, **kwargs: Any):
         self.aliases = aliases
         super().__init__(*args, **kwargs)
 
@@ -117,7 +138,7 @@ class Group(click.Group):
         format_help(self, ctx, formatter)
 
     def command(
-        self, *args: Any, aliases: list[str] = [], **kwargs: Any
+        self, *args: Any, aliases: List[str] = [], **kwargs: Any
     ) -> Union[Callable[[Callable[..., Any]], click.Command], click.Command]:
         return super().command(*args, aliases=aliases, **kwargs)
 
@@ -139,14 +160,35 @@ class Group(click.Group):
         return command
 
     def resolve_command(
-        self, ctx: Context, args: list[str]
-    ) -> tuple[Optional[str], Optional[click.Command], list[str]]:
+        self, ctx: Context, args: List[str]
+    ) -> Tuple[Optional[str], Optional[click.Command], List[str]]:
         return super().resolve_command(ctx, args)
+
+    def get_help_option(self, ctx: Context) -> Optional['Option']:
+        """Returns the help option object."""
+        help_options = self.get_help_option_names(ctx)
+
+        if not help_options or not self.add_help_option:
+            return None
+
+        def show_help(ctx: Context, param: click.Parameter, value: str) -> None:
+            if value and not ctx.resilient_parsing:
+                echo(ctx.get_help(), color=ctx.color)
+                ctx.exit()
+
+        return Option(
+            help_options,
+            is_flag=True,
+            is_eager=True,
+            expose_value=False,
+            callback=show_help,
+            help=_('show this message and exit'),
+        )
 
 
 def command(
-    name: _AnyCallable | None | str = None,
-    aliases: list[str] = [],
+    name: Optional[Union[_AnyCallable, str]] = None,
+    aliases: List[str] = [],
     **attrs: Any,
 ) -> Union[Command, Callable[[_AnyCallable], Command]]:
     return click.command(name, cls=Command, aliases=aliases, **attrs)  # type: ignore
@@ -154,7 +196,7 @@ def command(
 
 def group(
     name: Union[str, _AnyCallable, None] = None,
-    aliases: list[str] = [],
+    aliases: List[str] = [],
     **attrs: Any,
 ) -> Callable:
     return click.group(name, cls=Group, aliases=aliases, **attrs)  # type: ignore

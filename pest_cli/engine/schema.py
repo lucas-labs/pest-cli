@@ -1,5 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Literal, TypeAlias
+from typing import Dict, List, Literal, Optional
+
+try:
+    from typing import TypeAlias
+except ImportError:
+    from typing_extensions import TypeAlias
 
 from dataclass_wizard import YAMLWizard
 
@@ -10,8 +15,8 @@ PromptKind = Literal['text', 'choice']
 class Prompt:
     label: str
     kind: PromptKind = field(default='text')
-    choices: list[str] = field(default_factory=list)
-    default: str | None = None
+    choices: List[str] = field(default_factory=list)
+    default: Optional[str] = None
 
 
 @dataclass
@@ -21,12 +26,12 @@ class Property:
     data_type: str
     type: Literal['argument', 'option']
     description: str
-    default: str | None = None
-    prompt: Prompt | None = None
+    default: Optional[str] = None
+    prompt: Optional[Prompt] = None
     alternative: bool = field(default=False)
 
 
-Properties: TypeAlias = dict[str, Property]
+Properties: TypeAlias = Dict[str, Property]
 
 
 @dataclass
@@ -34,6 +39,6 @@ class Schema(YAMLWizard):
     """Schema for all pest schematics description files"""
 
     name: str
-    description: str | None = None
-    aliases: list[str] = field(default_factory=list)
-    properties: dict[str, Property] = field(default_factory=dict)
+    description: Optional[str] = None
+    aliases: List[str] = field(default_factory=list)
+    properties: Dict[str, Property] = field(default_factory=dict)

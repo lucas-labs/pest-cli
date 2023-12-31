@@ -1,13 +1,13 @@
 {
     "files.exclude": {
         // 📙 sub-libs
-        "tools": true,
+        // "tools": true,
 
         // ⚙️ config
-        "pyproject.toml": true,
+        // "pyproject.toml": true,
         "**/**/*.code-workspace": true,
         "poetry.lock": true,
-        "poetry.toml": true,
+        // "poetry.toml": true,
 
         // 🧼 linters & styles
         ".ruff.toml": true,
@@ -15,22 +15,22 @@
         ".env": true,
 
         // 🧪 tests
-        "conftest.py": true,
-        "tests": true,
+        // "conftest.py": true,
+        // "tests": true,
         "htmlcov": true,
         "coverage": true,
         ".coverage": true,
 
         // 🗑️
         ".task": true, // task-go
-        ".venv": true,
+        // ".venv": true,
         ".vscode": true,
         ".ruff_cache": true,
         "**/**/__pycache__": true,
         ".git": true,
-        ".gitignore": true,
+        // ".gitignore": true,
         ".pytest_cache": true,
-        ".github": true,
+        // ".github": true,
 
         // 📝 docs
         // "**/**/README.md": true

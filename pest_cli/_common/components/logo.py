@@ -19,7 +19,7 @@ class Logo(Component):
             '<sec> ▄▄▄▄  ▄▄▄▄ </sec>  <brand>   ▄▄▄▄▄    ▄▄▄▄   ▄▄▄▄    █   </brand>',
             '<sec> █▄▄█▄▄█▄▄█ </sec>  <brand>   █    █  █    █ █    ▀ ▀▀█▀▀▀</brand>',
             '<sec>▁▄████████▄▁</sec>  <brand>   █    █ █ ▀▀▀▀   ▀▀▀▀▀▄  █   </brand>',
-            '<sec>━██<bg-brand>  </bg-brand>██<bg-brand>  </bg-brand>██━</sec>  <brand>   █▀▀▀▀  ▀▄▄▄▄   ▀▄▄▄▄▄▀  ▀▄▄ </brand>',
+            '<sec>━██<bg-brand>  </bg-brand>██<bg-brand>  </bg-brand>██━</sec>  <brand>   █▀▀▀▀  ▀▄▄▄▄   ▀▄▄▄▄▄▀  ▀▄▄ </brand>',  # noqa: E501
             '<sec>▔▀████████▀▔</sec>  <brand>   ▀                           </brand>',
             '<sec>   ▚▚  ▞▞   </sec>  <brand>                               </brand>',
             '\n',

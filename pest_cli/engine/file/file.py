@@ -1,10 +1,11 @@
 from dataclasses import dataclass, field
 from hashlib import sha256
 from pathlib import Path
-from typing import Any, Mapping, MutableMapping
+from typing import Any, Dict, List, Mapping, MutableMapping, Optional
 
 import jinja2
 
+from ..._common.fprint.print_echo import echo
 from .types import DiffMode, FileProtocol
 
 
@@ -22,12 +23,12 @@ class File:
     __size: int = field(init=False)
     __type: str = field(init=False)
     __content: str = field(init=False)
-    __checksum: str | None = field(init=False)
+    __checksum: Optional[str] = field(init=False)
     __exists: bool = field(init=False, default=False)
-    __compiled_content: str | None = field(init=False, default=None)
-    __compiled_path: Path | None = field(init=False, default=None)
-    __compiled_rel_path: Path | None = field(init=False, default=None)
-    __compiled_checksum: str | None = field(init=False, default=None)
+    __compiled_content: Optional[str] = field(init=False, default=None)
+    __compiled_path: Optional[Path] = field(init=False, default=None)
+    __compiled_rel_path: Optional[Path] = field(init=False, default=None)
+    __compiled_checksum: Optional[str] = field(init=False, default=None)
 
     def __post_init__(self) -> None:
         self.name = self.path.name
@@ -53,7 +54,7 @@ class File:
         return cls(path=path, rel_path=rel_path)
 
     @classmethod
-    def from_paths(cls, paths: list[Path], root: Path = Path.cwd()) -> dict[Path, 'File']:
+    def from_paths(cls, paths: List[Path], root: Path = Path.cwd()) -> Dict[Path, 'File']:
         """create a dictionary of File objects from a list of paths"""
         return {path: File.from_path(path) for path in paths}
 
@@ -97,7 +98,7 @@ class File:
         self.__exists = True
 
     @property
-    def checksum(self) -> str | None:
+    def checksum(self) -> Optional[str]:
         return self.__checksum
 
     @property
@@ -105,35 +106,35 @@ class File:
         return self.__exists
 
     @property
-    def compiled_content(self) -> str | None:
+    def compiled_content(self) -> Optional[str]:
         return self.__compiled_content
 
     @compiled_content.setter
-    def compiled_content(self, content: str | None) -> None:
+    def compiled_content(self, content: Optional[str]) -> None:
         self.__compiled_content = content
 
     @property
-    def compiled_path(self) -> Path | None:
+    def compiled_path(self) -> Optional[Path]:
         return self.__compiled_path
 
     @compiled_path.setter
-    def compiled_path(self, path: Path | None) -> None:
+    def compiled_path(self, path: Optional[Path]) -> None:
         self.__compiled_path = path
 
     @property
-    def compiled_rel_path(self) -> Path | None:
+    def compiled_rel_path(self) -> Optional[Path]:
         return self.__compiled_rel_path
 
     @compiled_rel_path.setter
-    def compiled_rel_path(self, path: Path | None) -> None:
+    def compiled_rel_path(self, path: Optional[Path]) -> None:
         self.__compiled_rel_path = path
 
     @property
-    def compiled_checksum(self) -> str | None:
+    def compiled_checksum(self) -> Optional[str]:
         return self.__compiled_checksum
 
     @compiled_checksum.setter
-    def compiled_checksum(self, checksum: str | None) -> None:
+    def compiled_checksum(self, checksum: Optional[str]) -> None:
         self.__compiled_checksum = checksum
 
     def compile(self, ctx: Mapping[str, Any]) -> None:
@@ -181,13 +182,13 @@ class FlatFileTree:
     def __init__(
         self,
         path: Path = Path.cwd(),
-        root_path: Path | None = None,
+        root_path: Optional[Path] = None,
     ) -> None:
         self.path = path
         self.root_path = root_path or path
         self.__tree = self.__flat_tree()
 
-    def compile(self, ctx: dict[str, Any]) -> None:
+    def compile(self, ctx: Dict[str, Any]) -> None:
         if ctx:
             current = list(self.__tree.items())
 
@@ -204,23 +205,26 @@ class FlatFileTree:
     def merge(self, other: 'FlatFileTree') -> None:
         self.__tree.update(other.tree())
 
-    def __flat_tree(self) -> dict[Path, FileProtocol]:
-        tree: dict[Path, FileProtocol] = {}
+    def __flat_tree(self) -> Dict[Path, FileProtocol]:
+        tree: Dict[Path, FileProtocol] = {}
 
         for entry in self.path.iterdir():
             if entry.name in IGNORED:
                 continue
 
             if entry.is_file():
-                tree[entry.relative_to(self.root_path)] = File(
-                    path=entry, rel_path=entry.relative_to(self.root_path)
-                )
+                try:
+                    tree[entry.relative_to(self.root_path)] = File(
+                        path=entry, rel_path=entry.relative_to(self.root_path)
+                    )
+                except UnicodeDecodeError as e:
+                    echo(f'<brand>[warn]</brand> {entry.relative_to(self.root_path)}: {e}')
             elif entry.is_dir():
                 tree.update(FlatFileTree(entry, self.root_path).tree())
 
         return tree
 
-    def get(self, path: Path) -> FileProtocol | None:
+    def get(self, path: Path) -> Optional[FileProtocol]:
         return self.__tree.get(path)
 
     def tree(self) -> MutableMapping[Path, FileProtocol]:
@@ -242,8 +246,8 @@ class FlatFileTree:
 
         return result
 
-    def __diff_tree(self, other: 'FlatFileTree') -> dict[Path, DiffFile]:
-        diff_tree: dict[Path, DiffFile] = {}
+    def __diff_tree(self, other: 'FlatFileTree') -> Dict[Path, DiffFile]:
+        diff_tree: Dict[Path, DiffFile] = {}
 
         for path, file in self.__tree.items():
             other_file = other.get(path)

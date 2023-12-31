@@ -74,4 +74,27 @@ for name in SCHEMATICS:
                 )
             )
 
+    # append --yes (-y) option which will be available for all schematics
+    # and will skip all prompts (and make the command raise if any required
+    # argument/option is missing)
+    cmd.params.append(
+        cli.Option(
+            param_decls=['--yes', '-y'],
+            is_flag=True,
+            help='skip all prompts, including confirmations',
+        )
+    )
+
+    # append --cwd option which will be available for all schematics
+    # and will allow the user to specify the root directory for the
+    # generated files
+    cmd.params.append(
+        cli.Option(
+            param_decls=['--cwd'],
+            type=click.Path(exists=True, file_okay=False, dir_okay=True),
+            default=str(CWD),
+            help='the root directory for the generated files (default: current directory)',
+        )
+    )
+
     generate.add_command(cmd)

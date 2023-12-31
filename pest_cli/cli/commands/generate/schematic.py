@@ -20,7 +20,7 @@ def generate_schematic_files(files: FlatFileTree, root: Path) -> None:
             continue
 
         final_path = root / path
-        os.makedirs(os.path.dirname(path), exist_ok=True)
+        os.makedirs(os.path.dirname(final_path), exist_ok=True)
 
         with open(final_path, 'w', encoding='utf-8') as f:
             f.write(content)

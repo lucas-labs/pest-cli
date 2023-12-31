@@ -1,8 +1,13 @@
 from enum import Flag, auto
 from pathlib import Path
-from typing import Any, Mapping, Protocol, TypeAlias, Union, runtime_checkable
+from typing import Any, Dict, Mapping, Optional, Protocol, Union, runtime_checkable
 
-Tree: TypeAlias = Mapping[str, Union[dict[str, 'FileProtocol'], 'FileProtocol']]
+try:
+    from typing import TypeAlias
+except ImportError:
+    from typing_extensions import TypeAlias
+
+Tree: TypeAlias = Mapping[str, Union[Dict[str, 'FileProtocol'], 'FileProtocol']]
 '''Represents a directory tree'''
 
 
@@ -57,7 +62,7 @@ class FileProtocol(Protocol):
         ...
 
     @property
-    def checksum(self) -> str | None:
+    def checksum(self) -> Optional[str]:
         ...
 
     @property
@@ -65,19 +70,19 @@ class FileProtocol(Protocol):
         ...
 
     @property
-    def compiled_content(self) -> str | None:
+    def compiled_content(self) -> Optional[str]:
         ...
 
     @property
-    def compiled_path(self) -> Path | None:
+    def compiled_path(self) -> Optional[Path]:
         ...
 
     @property
-    def compiled_rel_path(self) -> Path | None:
+    def compiled_rel_path(self) -> Optional[Path]:
         ...
 
     @property
-    def compiled_checksum(self) -> str | None:
+    def compiled_checksum(self) -> Optional[str]:
         ...
 
 

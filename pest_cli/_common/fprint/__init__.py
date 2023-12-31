@@ -1,4 +1,5 @@
 import json as jsonpy
+from typing import Type, Union
 
 import pygments
 import yaml as yamlpy
@@ -29,8 +30,8 @@ def yaml(object: object, indent: int = 2, style: Style = styles.yaml) -> None:
     _print_highlighted(code, style, YamlLexer())
 
 
-def component(comp: Component | type[Component]) -> None:
-    if isinstance(comp, type):
+def component(comp: Union[Component, Type[Component]]) -> None:
+    if isinstance(comp, Type):
         comp = comp()
 
     print_formatted_text(comp.element, style=comp.style)

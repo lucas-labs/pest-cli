@@ -1,5 +1,10 @@
 from pathlib import Path
-from typing import Mapping, TypedDict, Unpack
+from typing import List, Mapping, Tuple, TypedDict, Union
+
+try:
+    from typing import Unpack
+except ImportError:
+    from typing_extensions import Unpack
 
 from ...engine.file.types import DiffMode, FileDiffProtocol, FileProtocol, Tree
 from . import at, fg
@@ -7,7 +12,7 @@ from .print_echo import echo
 
 
 class PrintTreeOptions(TypedDict, total=False):
-    highlight_extensions: list[str]
+    highlight_extensions: List[str]
 
 
 def build_tree(files: Mapping[Path, FileProtocol]) -> Tree:
@@ -22,8 +27,8 @@ def build_tree(files: Mapping[Path, FileProtocol]) -> Tree:
 
 
 def show_as_tree(
-    files: Mapping[Path, FileProtocol] | list[FileProtocol],
-    root: str | Path = '.',
+    files: Union[Mapping[Path, FileProtocol], List[FileProtocol]],
+    root: Union[str, Path] = '.',
     indent: str = '',
     with_extras: bool = True,
     **kwargs: Unpack[PrintTreeOptions],
@@ -36,7 +41,7 @@ def show_as_tree(
     display_tree(tree, indent, with_extras, **kwargs)
 
 
-def get_indent(is_last: bool, indent: str) -> tuple[str, str]:
+def get_indent(is_last: bool, indent: str) -> Tuple[str, str]:
     if is_last:
         line = '╰── '
         new_indent = indent + '    '
@@ -81,8 +86,8 @@ def display_tree(
 
 
 def tree(
-    files: Mapping[Path, FileProtocol] | list[FileProtocol],
-    root: str | Path = '.',
+    files: Union[Mapping[Path, FileProtocol], List[FileProtocol]],
+    root: Union[str, Path] = '.',
     with_extras: bool = True,
     **kwargs: Unpack[PrintTreeOptions],
 ) -> None:

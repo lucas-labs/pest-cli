@@ -14,7 +14,7 @@
                 "--help"
             ],
             "justMyCode": false
-        } ,
+        },
         {
             "name": "Pest CLI",
             "type": "python",
@@ -26,6 +26,17 @@
                 "app", 
                 "myapp"
                 // "--help"
+            ],
+            "justMyCode": false
+        },
+        {
+            "name": "Nox",
+            "type": "python",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "nox",
+            "args": [
+                "--session", "tests-3.11", "--reuse-existing-virtualenvs"
             ],
             "justMyCode": false
         } 

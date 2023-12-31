@@ -43,5 +43,5 @@ properties:
   version:
     data_type: string
     type: option
-    description: The version of the application.
+    description: the version of the application.
     default: 0.1.0

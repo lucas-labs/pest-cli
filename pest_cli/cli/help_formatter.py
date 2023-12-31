@@ -109,11 +109,7 @@ def wrap_text(
 
 
 class PestHelpFormatter(click.HelpFormatter):
-    """This class helps with formatting text-based help pages.  It's
-    usually just needed for very special internal cases, but it's also
-    exposed so that developers can write their own fancy outputs.
-
-    At present, it always writes into memory.
+    """This class helps with formatting text-based help pages.
 
     :param indent_increment: the additional increment for each level.
     :param width: the width for the text.  This defaults to the terminal
