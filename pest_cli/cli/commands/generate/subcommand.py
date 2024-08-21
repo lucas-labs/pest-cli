@@ -15,8 +15,7 @@ from ....engine.file.file import FlatFileTree
 from ....engine.schema import Schema
 
 
-class SubcommandCallback(Protocol):
-    ...
+class SubcommandCallback(Protocol): ...
 
 
 def get_callback(

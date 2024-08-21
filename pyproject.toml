@@ -3,6 +3,9 @@ name = "pest-cli"
 version = "0.1.0"
 description = "🐀 ⇝ cli tool for pest applications"
 authors = ["Lucas Colombo <lucas@lucaslabs.tech>"]
+homepage = "https://pest.lucode.ar"
+documentation = "https://pest.lucode.ar/docs"
+repository = "https://github.com/lucas-labs/pest-cli"
 license = "MIT"
 readme = "README.md"
 keywords = ["pest", "tool", "cli", "nestjs", "nest", "mvc", "web", "webapp", "di", "dependency injection", "rodi", "fastapi"]
@@ -28,23 +31,22 @@ classifiers = [
 [tool.poetry.dependencies]
 python = ">=3.8,<4.0"
 inquirerpy = "^0.3.4"
-pygments = "^2.17.2"
-pyyaml = "^6.0.1"
+pygments = "^2.18.0"
+pyyaml = "^6.0.2"
 click = "^8.1.7"
-rich = "^13.7.0"
-dataclass-wizard = "^0.22.2"
-jinja2 = "^3.1.2"
+rich = "^13.7.1"
+dataclass-wizard = "^0.22.3"
+jinja2 = "^3.1.4"
 tomli = "^2.0.1"
-typing-extensions = "^4.9.0"
+typing-extensions = "^4.12.2"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.3"
-ruff = "^0.1.6"
-pytest-asyncio = "^0.21.1"
-pytest-cov = "^4.1.0"
+pytest = "^8.3.2"
+ruff = "^0.6.1"
+pytest-asyncio = "^0.23.8"
+pytest-cov = "^5.0.0"
 nox-poetry = "^1.0.3"
-black = "^23.12.1"
-
+black = "^24.8.0"
 
 [tool.poetry.scripts]
 pest = "pest_cli.app:cli"

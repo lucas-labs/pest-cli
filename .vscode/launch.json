@@ -21,10 +21,11 @@
             "request": "launch",
             "console": "integratedTerminal",
             "module": "pest_cli.app",
+            "cwd": "${workspaceFolder}/__test",
             "args": [
                 "generate",
                 "app", 
-                "myapp"
+                // "myapp"
                 // "--help"
             ],
             "justMyCode": false
