@@ -18,8 +18,7 @@ class Component(ABC):
         return Style([])
 
     @abstractmethod
-    def render(self) -> str:
-        ...
+    def render(self) -> str: ...
 
     def __repr__(self) -> str:
         return f'{self.name}{self.description and f": {self.description}"}'
