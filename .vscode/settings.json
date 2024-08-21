@@ -4,7 +4,7 @@
         "tools": true,
 
         // ⚙️ config
-        "pyproject.toml": true,
+        // "pyproject.toml": true,
         "**/**/*.code-workspace": true,
         "poetry.lock": true,
         "poetry.toml": true,
